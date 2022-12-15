@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Payment Test</title>
+
+		<link rel="stylesheet" href="style.css" />
+		<script src="https://js.stripe.com/v3/"></script>
+
+		<script src="utils.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<main>
+			<!-- <a href="onboard-service.html">go to service onboarding</a> -->
+
+			Log in:
+			<div id="login-form">
+				<input id="phone" placeholder="Phone" required />
+				<input id="password" placeholder="Password" required />
+				<button onclick="login()">login</button>
+			</div>
+
+			<p id="CurrentUser">Please log in</p>
+
+			<h1>Payment</h1>
+			<div id="payment-form">
+				<label for="payment"> Payment Id </label>
+				<input id="paymentId" placeholder="Enter payment id" required />
+				<button onclick="initPayment()">init payment</button>
+			</div>
+
+			<div id="card-form">
+				4242 4242 4242 4242 (Visa) <br />
+				5555 5555 5555 4444 (Mastercard) <br />
+				3782 822463 10005 (American Express) <br /><br /><br />
+
+				bad cards<br />
+				4000 0000 0000 0002 (card_declined) <br />
+				4000 0000 0000 9979 (stolen_card) <br />
+				4000 0000 0000 9995 (insufficient_funds) <br /><br /><br />
+				<div id="card-element">
+					<!-- A Stripe Element will be inserted here. -->
+				</div>
+				<button onclick="pay()">Pay</button>
+			</div>
+
+			<div id="messages" role="alert"></div>
+		</main>
+	</body>
+</html>
