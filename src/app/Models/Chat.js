@@ -6,6 +6,7 @@ const Chat = new Schema(
 	{
 		doctor: { type: Schema.Types.ObjectId, ref: 'User', select: false, required: true },
 		customer: { type: Schema.Types.ObjectId, ref: 'User', select: false, required: true },
+		sender: { type: String, required: true },
 		body: { type: String, required: true },
 	},
 	defaultOptions({ timestamps: { updatedAt: false } })

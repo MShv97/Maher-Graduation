@@ -11,6 +11,7 @@ class ChatService {
 
 	async save(user) {
 		this.customer = user.id;
+		this.sender = user.type === User.TYPES.DOCTOR ? 'doctor' : 'customer';
 		let result;
 		const session = await mongoose.startSession();
 		await session.withTransaction(async (session) => {
