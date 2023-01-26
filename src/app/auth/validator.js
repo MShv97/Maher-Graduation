@@ -5,13 +5,8 @@ const _ = require('lodash');
 
 const signUp = Joi.object({
 	body: Joi.object({
-		firstName: Joi.string().required(),
-		lastName: Joi.string().required(),
+		type: Joi.enum(User.TYPES).required(),
 		phone: Joi.phone().required(),
-		city: Joi.objectId().required(),
-		address: Joi.string().required(),
-		email: Joi.string().email(),
-		password: Joi.password(),
 	}),
 });
 

@@ -17,12 +17,6 @@ const errors = {
 		msg: 'Invalid validation code.',
 	},
 
-	Supervisor_Not_Found: {
-		httpStatus: httpStatus.BAD_REQUEST,
-		code: code + '03',
-		msg: 'Supervisor not found.',
-	},
-
 	Delete_Active: {
 		httpStatus: httpStatus.BAD_REQUEST,
 		code: code + '04',

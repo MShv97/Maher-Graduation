@@ -3,7 +3,6 @@ const { Exception } = require('utils');
 const { Session, User } = require('../Models');
 const UserService = require('../user/service');
 const SMSService = require('../sms/service');
-const CompanyService = require('../company/service');
 const JWT = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const moment = require('moment');
@@ -13,7 +12,6 @@ class AuthService {
 		let result;
 		const session = await mongoose.startSession();
 		await session.withTransaction(async (session) => {
-			if (data.company) data.company = await new CompanyService(data.company).save(session);
 			const user = await new UserService(data).create(null, session);
 			result = await this.getTokens(user, session);
 			await SMSService.sendVerify(user, session);

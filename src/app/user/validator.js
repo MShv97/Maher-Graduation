@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const params = { id: Joi.objectId().required() };
 const paramId = Joi.object({ params });
-const files = {
+const files = Joi.object({
 	avatar: Joi.file({
 		mimetype: Joi.string().valid('image/jpeg', 'image/png'),
 		size: Joi.number()
@@ -18,29 +18,10 @@ const files = {
 			.integer()
 			.max(1024 * 1024 * 5),
 	}).max(5),
-};
-
-const save = Joi.object({
-	files: {
-		...files,
-		documents: files.documents.when('..body.type', { is: User.TYPES.DOCTOR, then: Joi.optional(), otherwise: Joi.forbidden() }),
-	},
-	body: {
-		type: Joi.enum(User.TYPES).required(),
-		firstName: Joi.string().required(),
-		lastName: Joi.string().required(),
-		birthDate: Joi.date().required(),
-		city: Joi.objectId().required(),
-		address: Joi.string().required(),
-		phone: Joi.phone().required(),
-		email: Joi.string().email(),
-		password: Joi.password().required(),
-	},
-});
+}).min(1);
 
 const update = Joi.object({
 	params,
-	files,
 	body: Joi.object({
 		firstName: Joi.string(),
 		lastName: Joi.string(),
@@ -77,6 +58,7 @@ const changePassword = ({ user }) => {
 	if (user.hasPassword) body.old = Joi.string().required();
 	return Joi.object({ body });
 };
+const uploadMineFiles = Joi.object({ params, files });
 const deleteMineFile = Joi.object({ params: { fileId: Joi.objectId().required() } });
 const updateMine = Joi.object({
 	body: Joi.object({
@@ -92,12 +74,12 @@ const updateMine = Joi.object({
 
 module.exports = {
 	paramId: joiSchema.middleware(paramId),
-	save: joiSchema.middleware(save),
 	update: joiSchema.middleware(update),
 	deleteFile: joiSchema.middleware(deleteFile),
 	getByCriteria: joiSchema.middleware(getByCriteria),
 	/** Mine */
 	updateMine: joiSchema.middleware(updateMine),
+	uploadMineFiles: joiSchema.middleware(uploadMineFiles),
 	changePassword: joiSchema.middleware(changePassword),
 	deleteMineFile: joiSchema.middleware(deleteMineFile),
 };

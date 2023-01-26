@@ -4,7 +4,7 @@ const handler = require('./handler');
 const validator = require('./validator');
 const router = require('express').Router();
 const auth = (action, opt = {}) => authorization({ action, subject: 'User', ...opt });
-const upload = multerUpload('avatar', 'eSignature');
+const upload = multerUpload('avatar', 'documents');
 const options = { nonVerified: true, nonActive: true, strict: false };
 
 /************************
@@ -13,7 +13,9 @@ const options = { nonVerified: true, nonActive: true, strict: false };
 
 /****** Mine  ********/
 
-router.patch('/mine', auth('update-mine'), upload, validator.updateMine, handler.updateMine);
+router.patch('/mine', auth('update-mine'), validator.updateMine, handler.updateMine);
+
+router.patch('/mine/file', auth('update-mine'), upload, validator.uploadMineFiles, handler.uploadMineFiles);
 
 router.patch('/password', auth('password'), validator.changePassword, handler.changePassword);
 
@@ -23,13 +25,11 @@ router.get('/mine', auth('view-mine', options), handler.getMine);
 
 /******* Admin ********/
 
-router.post('/', auth('save'), validator.save, handler.save);
-
 router.post('/:id/activate', auth('activate'), validator.paramId, handler.activate(true));
 
 router.post('/:id/deactivate', auth('activate'), validator.paramId, handler.activate(false));
 
-router.patch('/:id', auth('update'), upload, validator.update, handler.update);
+router.patch('/:id', auth('update'), validator.update, handler.update);
 
 router.delete('/:id/:fileId', auth('update'), validator.deleteFile, handler.deleteFile);
 

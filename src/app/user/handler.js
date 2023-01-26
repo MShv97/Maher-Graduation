@@ -10,6 +10,12 @@ module.exports = {
 		res.sendStatus(httpStatus.UPDATED);
 	},
 
+	async uploadMineFiles(req, res) {
+		const { user, body: data, files } = req;
+		await new UserService(data, files).uploadMineFiles(user);
+		res.sendStatus(httpStatus.UPDATED);
+	},
+
 	async changePassword(req, res) {
 		const { user, body: data } = req;
 		await UserService.changePassword(user, data);
@@ -30,12 +36,6 @@ module.exports = {
 	},
 
 	/*********  Admin ********/
-	async save(req, res) {
-		const { user, body: data, files } = req;
-		const result = await new UserService(data, files).save(user);
-		res.status(httpStatus.CREATED).json(result);
-	},
-
 	activate: (active) => async (req, res) => {
 		const { user } = req;
 		const { id } = req.params;

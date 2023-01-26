@@ -1,6 +1,6 @@
 module.exports = function (schema, options) {
 	schema.statics.findAndCount = async function ({ pagination, conditions, projection }, options = {}) {
-		const { total, data, ..._pagination } = pagination || { data: true };
+		const { total, data = true, ..._pagination } = pagination || {};
 		const queries = [];
 
 		if (total) queries.push(this.countDocuments(conditions).session(options.session));

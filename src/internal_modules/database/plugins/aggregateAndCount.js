@@ -1,7 +1,6 @@
 module.exports = function (schema, options) {
 	schema.statics.aggregateAndCount = async function (stage1, pagination, stage2 = []) {
-		const { total, data, ..._pagination } = pagination;
-
+		const { total, data = true, ..._pagination } = pagination || {};
 		const paginationStage = ['sort', 'skip', 'limit'].reduce((acc, cur) => {
 			if (_pagination[cur] !== undefined) acc.push({ [`$${cur}`]: _pagination[cur] });
 			return acc;

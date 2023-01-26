@@ -1,1 +1,1 @@
-// require('./payment/socket');
+require('./chat/socket');

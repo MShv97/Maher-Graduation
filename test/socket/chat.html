@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Alarm Socket Test</title>
+
+		<link rel="stylesheet" href="style.css" />
+
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"
+			integrity="sha512-MgkNs0gNdrnOM7k+0L+wgiRc5aLgl74sJQKbIWegVIMvVGPc1+gc1L2oK9Wf/D9pq58eqIJAxOonYPVE5UwUFA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script src="script.js"></script>
+	</head>
+
+	<body>
+		Hello From Chat Socket Test!
+
+		<table class="custom-table">
+			<tr>
+				<th class="custom-th">Users</th>
+				<th class="custom-th">Sockets</th>
+			</tr>
+			<tr>
+				<td class="custom-td">
+					User:<br />
+					<input id="accessToken" placeholder="accessToken" type="text" />
+					<br /><br />
+				</td>
+				<td class="custom-td">
+					Sockets:<br />
+
+					<button onclick="connect('chat')">Get By Criteria</button><br /><br />
+					<table>
+						<tr>
+							<td>current socket:</td>
+							<td><div id="current-socket">PLEASE CHOOSE A SOCKET!</div></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+		<hr size="2" width="95%" color="black" />
+		New Events: <button onclick="(()=>document.getElementById('data').innerHTML = '')()">Clear</button>
+		<div id="data"></div>
+	</body>
+</html>

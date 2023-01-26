@@ -1,10 +1,12 @@
 const { convertToDotNotation } = require('database').utils;
 const { Exception, FileService, Casl } = require('utils');
-const { User, Specialty, City } = require('../Models');
+const { User, Specialty, City, Review } = require('../Models');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 
 class UserService {
+	static profileCompleteKeys = ['firstName', 'lastName', 'birthDate', 'address', 'city'];
+
 	constructor(data = {}, files = {}) {
 		this.type = data.type;
 
@@ -56,7 +58,7 @@ class UserService {
 	}
 
 	async create(user, session) {
-		this.isProfileComplete = ['firstName', 'lastName', 'birthDate', 'address', 'city'].every((key) => this[key]);
+		this.isProfileComplete = UserService.profileCompleteKeys.every((key) => this[key]);
 		const [result] = await Promise.all([new User(this).save({ session }), this.validate(user, session)]);
 		return result;
 	}
@@ -73,16 +75,15 @@ class UserService {
 		await session.withTransaction(async (session) => {
 			const [result] = await Promise.all([
 				User.accessibleBy(user.abilities, 'update').findOneAndUpdate({ _id }, data, {
-					projection: 'firstName lastName birthDate city address isProfileComplete avatar',
+					projection: [...UserService.profileCompleteKeys, 'isProfileComplete', 'avatar'],
 					lean: true,
 					session,
 				}),
 				this.validate(user, session),
 			]);
 			if (!result) throw Exception.user.Not_Found;
-			if (!isProfileComplete && ['firstName', 'lastName', 'birthDate', 'city', 'address'].every((key) => result[key]))
+			if (!result.isProfileComplete && UserService.profileCompleteKeys.every((key) => result[key]))
 				User.updateOne({ _id }, { isProfileComplete: true }, { session });
-			if (this.avatar && result.avatar) await FileService.delete(result.avatar, session);
 		});
 	}
 
@@ -152,6 +153,20 @@ class UserService {
 
 		const result = await User.findAndCount({ conditions, projection, pagination });
 
+		if (user.type === User.TYPES.CUSTOMER) {
+			result.data = await Promise.all(
+				result.data?.map(async (val) => {
+					val = val.toObject();
+					[val.reviews] = await Review.aggregate([
+						{ $match: { doctor: val.id } },
+						{ $group: { _id: '$doctor', sum: { $sum: '$stars' }, count: { $count: {} } } },
+					]);
+					delete val.reviews?._id;
+					return val;
+				})
+			);
+		}
+
 		return result;
 	}
 
@@ -159,17 +174,18 @@ class UserService {
 	async updateMine(user) {
 		const session = await mongoose.startSession();
 		await session.withTransaction(async (session) => {
-			const data = convertToDotNotation(this, { ignore: ['avatar', 'files'] });
+			const data = convertToDotNotation(this, { ignore: ['avatar', 'documents', 'files'] });
 			const [result] = await Promise.all([
 				User.accessibleBy(user.abilities, 'update-mine').findOneAndUpdate({ _id: user.id }, data, {
-					projection: 'avatar',
+					projection: [...UserService.profileCompleteKeys, 'isProfileComplete'],
 					lean: true,
 					session,
 				}),
 				this.validate(user, session),
 			]);
 			if (!result) throw Exception.user.Not_Found;
-			if (this.avatar && result.avatar) await FileService.delete(result.avatar, session);
+			if (!result.isProfileComplete && UserService.profileCompleteKeys.every((key) => result[key]))
+				User.updateOne({ _id: user.id }, { isProfileComplete: true }, { session });
 		});
 	}
 
@@ -194,14 +210,14 @@ class UserService {
 		await session.withTransaction(async (session) => {
 			const [result] = await Promise.all([
 				User.accessibleBy(user.abilities, 'update-mine').findOneAndUpdate({ _id: user.id }, this, {
-					projection: 'avatar eSignature',
+					projection: 'avatar',
 					lean: true,
 					session,
 				}),
-				FileService.insertMany([this.avatar, this.eSignature], session),
+				FileService.insertMany([this.avatar, ...(this.documents || [])], session),
 			]);
 			if (!result) throw Exception.user.Not_Found;
-			await FileService.deleteArray([result.avatar, result.eSignature], session);
+			if (this.avatar && result.avatar) await FileService.delete(result.avatar, session);
 		});
 	}
 
@@ -209,11 +225,12 @@ class UserService {
 		const session = await mongoose.startSession();
 		await session.withTransaction(async (session) => {
 			const conditions = { _id: user.id, ...User.accessibleBy(user.abilities, 'update-mine').getQuery() };
-			const result = await User.findOne(conditions, 'avatar eSignature', { session });
+			const result = await User.findOne(conditions, 'avatar documents', { session });
 			if (!result) throw Exception.user.Not_Found;
 
 			if (result.avatar?.toString() === fileId) result.avatar = undefined;
-			else if (result.eSignature?.toString() === fileId) result.eSignature = undefined;
+			else if (result.documents?.some((val) => val.toString() === fileId))
+				result.documents = result.documents?.filter((val) => val.toString() !== fileId);
 			else throw Exception.file.Not_Found;
 
 			await Promise.all([result.save({ session }), FileService.delete(fileId, session)]);
