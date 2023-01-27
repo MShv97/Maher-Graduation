@@ -23,4 +23,8 @@ router.use('/review', require('./review/router'));
 
 router.use('/chat', require('./chat/router'));
 
+router.use('/appointment', require('./appointment/router'));
+
+router.use('/notification', require('./notification/router'));
+
 module.exports = router;

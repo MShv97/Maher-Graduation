@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { joiSchema } = require('utils');
-const { Subscription } = require('../Models');
+const { Notification } = require('../Models');
 
 const params = { id: Joi.objectId().required() };
 const paramId = Joi.object({ params });
@@ -26,6 +26,8 @@ const getByCriteria = Joi.object({
 	query: {
 		...joiSchema.common.getByCriteria,
 		markedAsRead: Joi.boolean(),
+		resource: Joi.objectId(),
+		resourceModel: Joi.enum(Notification.RESOURCES_MODELS),
 	},
 });
 

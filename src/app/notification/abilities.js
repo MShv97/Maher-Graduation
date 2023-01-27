@@ -1,5 +1,6 @@
 const { Casl } = require('utils');
-const { SYSTEM, ADMIN, CUSTOMER } = require('../Models').User.TYPES;
+const { User } = require('../Models');
+const { SYSTEM, DOCTOR, CUSTOMER } = User.TYPES;
 
 const subject = 'Notification';
 
@@ -8,7 +9,7 @@ const abilities = {
 		return [{ subject, action: ['manage'], conditions: { user: user.id }, fields: ['-user'] }];
 	},
 
-	[ADMIN]: (user) => {
+	[DOCTOR]: (user) => {
 		return [{ subject, action: ['manage'], conditions: { user: user.id }, fields: ['-user'] }];
 	},
 

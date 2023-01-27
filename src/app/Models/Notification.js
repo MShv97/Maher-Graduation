@@ -17,6 +17,8 @@ const Notification = new Schema(
 	defaultOptions({ timestamps: false })
 );
 
-Notification.statics = {};
+Notification.statics = {
+	RESOURCES_MODELS: ['Appointment'],
+};
 
 module.exports = mongoose.model('Notification', Notification, 'Notification');

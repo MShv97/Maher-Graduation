@@ -10,6 +10,7 @@ module.exports = {
 	Notification: require('./Notification'),
 	NotificationToken: require('./NotificationToken'),
 
+	Appointment: require('./Appointment'),
 	Specialty: require('./Specialty'),
 	Review: require('./Review'),
 	Chat: require('./Chat'),
