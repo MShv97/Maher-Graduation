@@ -8,6 +8,13 @@ module.exports = {
 		res.status(httpStatus.CREATED).json(result);
 	},
 
+	process: (action) => async (req, res) => {
+		const { user, body: data } = req;
+		const { id } = req.params;
+		await AppointmentService.process(user, id, action);
+		res.sendStatus(httpStatus.OK);
+	},
+
 	async update(req, res) {
 		const { user, body: data } = req;
 		const { id } = req.params;

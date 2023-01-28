@@ -13,9 +13,16 @@ const errors = {
 
 	Conflict: {
 		httpStatus: httpStatus.BAD_REQUEST,
-		code: code + '01',
+		code: code + '02',
 		msg: 'Appointment conflict.',
 	},
+
+	Wrong_Status: (action, status) => ({
+		httpStatus: httpStatus.BAD_REQUEST,
+		code: code + '03',
+		msg: `Can not ${action} appointment while its status is ${status}.`,
+		args: { action, status },
+	}),
 };
 
 Exception.add(model, code, errors);

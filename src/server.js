@@ -5,6 +5,7 @@ const database = require('database');
 const express = require('express');
 const socket = require('socket');
 const passport = require('./app/auth/passport');
+const { ExpressPeerServer } = require('peer');
 const path = require('path');
 const app = express();
 
@@ -26,6 +27,10 @@ async function start() {
 	app.use(errorHandlers.middleware);
 
 	const httpServer = require('http').createServer(app);
+
+	const peerServer = ExpressPeerServer(httpServer, { debug: true });
+
+	app.use('/peerjs', peerServer);
 
 	socket.init({ httpServer });
 

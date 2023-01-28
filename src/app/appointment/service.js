@@ -1,6 +1,7 @@
 const { Exception } = require('utils');
 const { Appointment, User } = require('../Models');
 const { emitters } = require('emitter');
+const { getActionUpdate, allowedStatuses } = require('./utils');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const _ = require('lodash');
@@ -67,6 +68,7 @@ class AppointmentService {
 				session,
 			});
 			if (!result) throw Exception.appointment.Not_Found;
+			if (!allowedStatuses['update'].includes(result.status)) throw Exception.appointment.Wrong_Status('update', result.status);
 			Object.keys(result).forEach((key) => (this[key] = this[key] !== undefined ? this[key] : result[key]));
 			await this.validate(user, session);
 		});
@@ -82,16 +84,16 @@ class AppointmentService {
 		});
 	}
 
-	static async delete(user, _id) {
+	static async process(user, _id, action) {
+		const [conditions, update] = [
+			{ _id, ...Appointment.accessibleBy(user.abilities, 'action').getQuery() },
+			getActionUpdate(action),
+		];
 		const session = await mongoose.startSession();
 		await session.withTransaction(async (session) => {
-			const conditions = { _id, ...Appointment.accessibleBy(user.abilities, 'delete').getQuery() };
-			const [result, hasDoctors] = await Promise.all([
-				Appointment.findOneAndDelete(conditions, { projection: 'icon', lean: true, session }),
-				User.exists({ specialty: _id }, { session }),
-			]);
-			if (!result) throw Exception.specialty.Not_Found;
-			if (hasDoctors) throw Exception.specialty.Has_Doctors;
+			const result = await Appointment.findOneAndUpdate(conditions, update, { projection: 'status', lean: true, session });
+			if (!result) throw Exception.appointment.Not_Found;
+			if (!allowedStatuses[action].includes(result.status)) throw Exception.appointment.Wrong_Status(action, result.status);
 		});
 	}
 

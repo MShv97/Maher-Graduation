@@ -11,9 +11,13 @@ const auth = (action) => authorization({ action, subject: 'Appointment' });
 
 router.post('/', auth('save'), validator.save, handler.save);
 
-router.patch('/:id', auth('update'), validator.update, handler.update);
+router.post('/:id/approve', auth('approve'), validator.paramId, handler.process('approve'));
 
-router.delete('/:id', auth('delete'), validator.paramId, handler.delete);
+router.post('/:id/cancel', auth('cancel'), validator.paramId, handler.process('cancel'));
+
+router.post('/:id/reject', auth('reject'), validator.paramId, handler.process('reject'));
+
+router.patch('/:id', auth('update'), validator.update, handler.update);
 
 router.get('/metadata', handler.metadata);
 

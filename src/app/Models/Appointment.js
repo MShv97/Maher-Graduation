@@ -10,12 +10,16 @@ const Appointment = new Schema(
 		customer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 		date: { type: Date, required: true },
 		time: { type: Number, required: true },
+
+		approvedAt: { type: Date },
+		canceledAt: { type: Date },
+		rejected: { type: Date },
 	},
 	defaultOptions({ timestamps: false })
 );
 
 Appointment.statics = {
-	STATUSES: { PENDING: 'Pending', APPROVED: 'Approved', CANCELED: 'Canceled' },
+	STATUSES: { PENDING: 'Pending', APPROVED: 'Approved', REJECTED: 'Rejected', CANCELED: 'Canceled' },
 	TYPES: { CLINIC: 'Clinic', ONLINE: 'Online' },
 };
 
