@@ -113,8 +113,8 @@ class AppointmentService {
 		const projection = Appointment.accessibleFieldsBy(user.abilities, 'view');
 		const result = await Appointment.accessibleBy(user.abilities, 'view').findOne({ _id }, projection, {
 			populate: [
-				{ path: 'doctor', select: 'firstName lastName avatar' },
-				{ path: 'customer', select: 'firstName lastName avatar' },
+				{ path: 'doctor', select: 'firstName lastName phone avatar' },
+				{ path: 'customer', select: 'firstName lastName phone avatar' },
 			],
 		});
 		if (!result) throw Exception.specialty.Not_Found;
