@@ -1,0 +1,14 @@
+{
+	"name": "database",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@casl/mongoose": "^6.0.1",
+		"mongoose-autopopulate": "^0.16.1",
+		"mongoose-lean-getters": "^0.3.5",
+		"mongoose-lean-virtuals": "^0.9.1"
+	}
+}

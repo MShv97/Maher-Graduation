@@ -1,0 +1,17 @@
+{
+	"printWidth": 133,
+	"tabWidth": 2,
+	"useTabs": true,
+	"semi": true,
+	"singleQuote": true,
+	"quoteProps": "as-needed",
+	"trailingComma": "es5",
+	"bracketSpacing": true,
+	"arrowParens": "always",
+	"rangeStart": 0,
+	"requirePragma": false,
+	"insertPragma": false,
+	"proseWrap": "preserve",
+	"endOfLine": "lf",
+	"overrides": [{ "files": "router.js", "options": { "printWidth": 150 } }]
+}

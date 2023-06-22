@@ -1,0 +1,44 @@
+.DS_Store
+node_modules
+
+# package-log.json
+package-lock.json
+
+# add build to gitignore
+/build
+dist
+
+#config files are secrets
+/config/*.json
+/config/*.yaml
+!config/package.json
+
+# local env files
+.env
+.env.local
+.env.*.local
+
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Custom
+.local
+
+assets/*
+!assets/.ignore
+!assets/README.md
+public/*
+
+globalInstalled.checked

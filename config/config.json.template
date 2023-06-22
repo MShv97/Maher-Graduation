@@ -1,0 +1,30 @@
+{
+	"port": 7000,
+
+	"server": { "domain": "http://localhost:7000" },
+
+	"App": { "name": "Maher Graduation" },
+
+	"website": { "domain": "https://website.com" },
+
+	"database": {
+		"mongodb": {
+			"uri": "mongodb://127.0.0.1:27017/?replicaSet=rs",
+			"dbName": "Maher",
+			"debug": false
+		}
+	},
+
+	"bcrypt": { "rounds": 10 },
+
+	"jwt": {
+		"accessToken": { "key": "secret", "expirationDuration": "20d" },
+		"refreshToken": {
+			"key": "refreshSecret",
+			"expirationDuration": 5,
+			"expirationUnit": "days"
+		},
+		"emailVerification": { "key": "secret", "expirationDuration": "7d" },
+		"passwordReset": { "key": "secret", "expirationDuration": "7d" }
+	}
+}

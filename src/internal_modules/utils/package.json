@@ -1,0 +1,16 @@
+{
+	"name": "utils",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@casl/ability": "^6.3.1",
+		"chalk": "^4.*",
+		"libphonenumber-js": "^1.10.14",
+		"multer": "^1.4.5-lts.1",
+		"nodemailer": "^6.8.0",
+		"winston": "^3.8.2"
+	}
+}

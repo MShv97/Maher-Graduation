@@ -1,0 +1,106 @@
+{
+	"model": "User",
+	"data": {
+		"general": [],
+		"development": [
+			{
+				"_id": "000000020000000000000000",
+				"type": "System",
+				"firstName": "System",
+				"lastName": "System",
+				"birthDate": "1997-04-10",
+				"address": { "country": "000000000000000000000235", "city": "000000000000000000000003", "location": "404 street" },
+				"email": "sys_admin@vision.com",
+				"phone": "+9660000000000",
+				"password": "P@$$w0rd",
+				"hasPassword": true,
+				"isVerified": { "email": false, "phone": true },
+				"isProfileComplete": true,
+				"avatar": "000000010000000200000000"
+			},
+
+			{
+				"_id": "000000020000000000000001",
+				"company": "000000030000000000000000",
+				"type": "Doctor",
+				"firstName": "Doctor",
+				"lastName": "1",
+				"birthDate": "1997-04-10",
+				"address": { "country": "000000000000000000000235", "city": "000000000000000000000003", "location": "404 street" },
+				"email": "doctor1@doctor.com",
+				"phone": "+9660000000001",
+				"password": "P@$$w0rd",
+
+				"specialty": "000000030000000000000000",
+				"about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a est eu metus sollicitudin laoreet eu a ligula. Suspendisse ac semper magna, vel fringilla nibh. Etiam hendrerit placerat tellus, laoreet vehicula dolor feugiat at. Nulla ac placerat elit.",
+				"documents": ["000000010000000200000010"],
+				"workingDays": {},
+
+				"hasPassword": true,
+				"isVerified": { "email": false, "phone": true },
+				"isProfileComplete": true,
+				"avatar": "000000010000000200000001"
+			},
+			{
+				"_id": "000000020000000000000002",
+				"company": "000000030000000000000000",
+				"type": "Doctor",
+				"firstName": "Doctor",
+				"lastName": "2",
+				"birthDate": "1997-04-10",
+				"address": { "country": "000000000000000000000235", "city": "000000000000000000000003", "location": "404 street" },
+				"email": "doctor2@doctor.com",
+				"phone": "+9660000000002",
+				"password": "P@$$w0rd",
+
+				"specialty": "000000030000000000000000",
+				"about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a est eu metus sollicitudin laoreet eu a ligula. Suspendisse ac semper magna, vel fringilla nibh. Etiam hendrerit placerat tellus, laoreet vehicula dolor feugiat at. Nulla ac placerat elit.",
+				"documents": ["000000010000000200000020"],
+				"workingDays": {},
+
+				"hasPassword": true,
+				"isVerified": { "email": false, "phone": true },
+				"isProfileComplete": true,
+				"avatar": "000000010000000200000002"
+			},
+			{
+				"_id": "000000020000000000000003",
+				"company": "000000030000000000000000",
+				"type": "Doctor",
+				"firstName": "Doctor",
+				"lastName": "3",
+				"birthDate": "1997-04-10",
+				"address": { "country": "000000000000000000000235", "city": "000000000000000000000003", "location": "404 street" },
+				"email": "doctor3@doctor.com",
+				"phone": "+9660000000003",
+				"password": "P@$$w0rd",
+
+				"specialty": "000000030000000000000000",
+				"about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a est eu metus sollicitudin laoreet eu a ligula. Suspendisse ac semper magna, vel fringilla nibh. Etiam hendrerit placerat tellus, laoreet vehicula dolor feugiat at. Nulla ac placerat elit.",
+				"documents": ["000000010000000200000030"],
+				"workingDays": {},
+
+				"hasPassword": true,
+				"isVerified": { "email": false, "phone": true },
+				"isProfileComplete": true,
+				"avatar": "000000010000000200000003"
+			},
+
+			{
+				"_id": "000000020000000000000004",
+				"type": "Customer",
+				"firstName": "Customer",
+				"lastName": "1",
+				"birthDate": "1997-04-10",
+				"address": { "country": "000000000000000000000235", "city": "000000000000000000000003", "location": "404 street" },
+				"email": "customer1@customer.com",
+				"phone": "+9660000000004",
+				"password": "P@$$w0rd",
+				"hasPassword": true,
+				"isVerified": { "email": false, "phone": true },
+				"isProfileComplete": true,
+				"avatar": "000000010000000200000004"
+			}
+		]
+	}
+}
